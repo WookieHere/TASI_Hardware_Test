@@ -1,6 +1,7 @@
 import PyLidar3
 import time # Time module
 import Motor_Funcs
+
 #Serial port to which lidar connected, Get it from device manager windows
 #In linux type in terminal -- ls /dev/tty*
 def test_lidar():
@@ -13,12 +14,16 @@ def test_lidar():
         t = time.time() # start time
         while (time.time() - t) < 30: #scan for 30 seconds
             data = next(gen)
-            #print(data)
-            if gen[0] < .5:
-                print("wall is close")
-                Motor_Funcs.motor_backward()
+            forward_dist = gen[0]   #distance between lidar and front wall. if this doesn't work, make it 90
+            backward_dist = gen[180] #distance between lidar and back wall. if this doesn't work, make it 270
+            if forward_dist < .5:  #if we are closer than .5 meters to a wall
+                print("front wall is close")
+                Motor_Funcs.motor_backward() #tell the wheels to go backward
+            elif backward_dist < .5:
+                print("back wall is close")
+                Motor_Funcs.motor_forward()
             else:
-                print("wall is far")
+                print("both walls are far")
                 Motor_Funcs.motor_forward()
             time.sleep(0.5)
         Obj.StopScanning()
