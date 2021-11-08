@@ -1,4 +1,4 @@
-def motor_forward():
+def motor_forward(speed = 0):
     """
     This should be code that makes the wheels go forward
 
@@ -6,7 +6,7 @@ def motor_forward():
     """
     pass
 
-def motor_backward():
+def motor_backward(speed = 0):
     """
     This should be code that makes the wheels go backwards
 
